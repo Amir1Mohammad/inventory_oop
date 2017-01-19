@@ -5,7 +5,8 @@ __Author__ = "Amir Mohammad"
 from sqlalchemy import Column, Integer, String
 
 # project imports
-from models.base import engine, session, Base
+from models.base import Base
+
 
 
 class Item(Base):
@@ -15,3 +16,4 @@ class Item(Base):
     category = Column(String(50), unique=True)
     name = Column(String(50))
     property = Column(String(100))
+    number = Column(Integer)
