@@ -10,49 +10,115 @@ from models.base import session, init_db
 
 init_db()
 
+class Category:
+    def is_new_category(self, category):
+        category_list = session.query(Item.category).all()
+        if (str(category),) in category_list:
+            return False
+        else :
+            return True
 
-def is_category(category):
-    category_list = session.query(Item.category).all()
-    print category_list
-    if (u'amir',) in category_list:
-        print "Yes , There is"
-        return True
+        
+    def add_category(self, category):
+        if self.is_new_category(category):
+            new_category = Item(category = category)
+            session.add(new_category)
+            session.commit()
 
 
-# is_category((u'amir',))
+    def edit_category(self, category1, category2):
+        if not self.is_new_category(category1):
+            #category1 ro tu database peida kon va avzesh kon ba category2
+            pass
 
 
-# in bi manie , chon khodesh add mikone .
-def add_category(category):
-    pass
+    def delete_category(self, category):
+        if not self.is_new_category(category):
+            #category ro tu databasse peida kon va sikesh kon
+            pass
+
+
+
+class Name:
+    def is_new_item(self, category, name):
+        categ_obj = Category()
+        if not categ_obj.is_new_category(category):
+            item_list = session.query(Item.name).all()
+            if (str(name),) in item_list:
+                return False
+            else :
+                return True
+
+    def add_item(self, category, name):
+        if self.is_new_item(category, name):
+            #bayad bere toye category
+            new_item = Item(name = name)
+            session.add(new_item)
+            session.commit()
+
+
+    def edit_item(self, category, name1, name2):
+        if not self.is_new_name(category, name1):
+            #bayad bere toye category
+            #name1 ro tu database peida kon va avzesh kon ba name2
+            pass
+
+
+    def delete_item(self, category, name):
+        if not self.is_new_name(category, name):
+            #bayad bere toye category
+            #name ro tu databasse peida kon va sikesh kon
+            pass
+
+
 
 
 class DoItem:
-    def __init__(self):
-        pass
+    def check_category(self, category):
+        cat_obj = Category()
+        if cat_obj.is_new_category(category):
+            return True
 
+            
+    def check_name(self, category, name):
+        nam_obj = Name()
+        if nam_obj.is_new_item(category, name):
+            return True
+
+        
     def add_item(self, id, category, name, property, number):
+        cat_obj = Category()
+        nam_obj = Name()
+        if self.check_category(category):
+            cat_obj.add_category(category)
+        if self.check_name(category, name):
+            nam_obj.add_item(category, name)
+        ###bayad avaz she 
         new_item = Item(id=id, category=category, name=name, property=property, number=number)
         session.add(new_item)
         session.commit()
         print "add_item feature completed"
-
-    def edit_item(self, id, name):
-        u = session.query(Item).get(id)
-        u.name = name
-        session.commit()
-        print "edit_item feature completed"
-
+        #########
+    def edit_item(self, id, category, name, property1, property2):
+        if (not self.check_category(category)) and (not self.check_name(category, name)):
+            ######bayad avaz she
+            u = session.query(Item).get(id)
+            u.name = name
+            session.commit()
+            print "edit_item feature completed"
+            #############
     def delete_item(self, id):
-        user = Item.query.get(id)
-        session.delete(user)
-        session.commit()
-        print "delete_item feature completed"
-
+        if (not self.check_category(category)) and (not self.check_name(category, name)):
+            ############
+            user = Item.query.get(id)
+            session.delete(user)
+            session.commit()
+            print "delete_item feature completed"
+            ################
 
 DoItem_obj = DoItem()
 
-# DoItem_obj.add_item(10,"Car", "Pride", "hachbach", 20)
+#DoItem_obj.add_item(11,"Mive", "Sib", "Damavand", 20)
 # DoItem_obj.add_item(10,"Food", "pizza", "chicken", 50)
 # DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
 # DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
