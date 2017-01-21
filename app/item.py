@@ -37,8 +37,7 @@ class DoItem:
         session.commit()
         print "add_item feature completed"
 
-    def edit_item(self, id,name):
-
+    def edit_item(self, id, name):
         u = session.query(Item).get(id)
         u.name = name
         session.commit()
@@ -51,11 +50,11 @@ class DoItem:
         print "delete_item feature completed"
 
 
-
-#TODO DONE
 DoItem_obj = DoItem()
+
 # DoItem_obj.add_item(10,"Car", "Pride", "hachbach", 20)
-# DoItem_obj.add_item(20,"Food", "pizza", "chicken", 50)
+# DoItem_obj.add_item(10,"Food", "pizza", "chicken", 50)
 # DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
+# DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
 # DoItem_obj.edit_item(31,"havapeyma")
 # DoItem_obj.delete_item(1)

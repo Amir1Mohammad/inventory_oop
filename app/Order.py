@@ -31,11 +31,11 @@ class Order:
             session.commit()
             print "Created Order Successfully !"
 
+
     def cancel_order(self):
         print "Ordered Canceled Successfully !"
 
 
 order_obj = Order()
-
-order_obj.create_order("Digital","Mobile","samsung",200)
+# order_obj.create_order("Digital","Mobile","samsung",2)
 # order_obj.create_order("Car","Pride","hachbach",1)
