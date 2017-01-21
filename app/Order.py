@@ -6,39 +6,36 @@ __Author__ = "Amir Mohammad"
 # project imports
 from models.base import session
 from models import Item
+from Logs import get_id
 
 
-def validate_order():
-    for row in session.query(Item, Item.name).all():
-        print(row.Item, row.name)
-        # if != null :return 1
-
+def item_number(category,name,property):
+    for item_ in session.query(Item).filter(Item.category == category, Item.name == name,
+                                            Item.property == property).all():
+        return item_.number
 
 class Order:
     def __init__(self):
         pass
 
-    def create_order(self):
-        is_validate = validate_order()
-
-        if is_validate:
-            #delete in database sqlalchemy
-            pass
+    def create_order(self,category,name,property,number):
+        items_number = item_number (category,name,property)
+        if items_number <  number:
+            print "This Order is not Valid . Check your inventory again ."
+            self.cancel_order()
+        else:
+            o_id = get_id(category, name, property)
+            u = session.query(Item).get(o_id)
+            print u.number
+            u.number = u.number - number
+            session.commit()
+            print "Created Order Successfully !"
 
     def cancel_order(self):
-        is_validate = validate_order()
-        if is_validate == 0:
-            print "Your Order is not valid , check your item."
+        print "Ordered Canceled Successfully !"
 
 
+order_obj = Order()
 
-'''
-QUERY :
-
-cookies = session.query(Cookie).all()
-for cookie in session.query(Cookie):
-    print cookie
-
-cookies = session.query(Cookie).first()
-
-'''
+order_obj.create_order("Digital","Mobile","samsung",200)
+# order_obj.create_order("Car","Pride","hachbach",1)

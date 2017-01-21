@@ -10,14 +10,16 @@ from models.base import session
 
 def notification():
     import pygame
+    pass
 
 
 def get_id(category, name, property):
-    for my_id in session.query(Item).filter(Item.category == category, Item.name == name, Item.property == property).all():
-        print my_id.id
+    for my_id in session.query(Item).filter(Item.category == category,
+                                            Item.name == name, Item.property == property).all():
+        # print my_id.id
         return my_id.id
 
-get_id("Car", "Pride", "Saba")
+# get_id("Car","Pride","Saba")
 
 
 class LogFile:

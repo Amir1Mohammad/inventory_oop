@@ -19,7 +19,7 @@ def is_category(category):
         return True
 
 
-is_category((u'amir',))
+# is_category((u'amir',))
 
 
 # in bi manie , chon khodesh add mikone .
@@ -37,8 +37,11 @@ class DoItem:
         session.commit()
         print "add_item feature completed"
 
-    def edit_item(self, id):
-        # session.commit()
+    def edit_item(self, id,name):
+
+        u = session.query(Item).get(id)
+        u.name = name
+        session.commit()
         print "edit_item feature completed"
 
     def delete_item(self, id):
@@ -48,6 +51,11 @@ class DoItem:
         print "delete_item feature completed"
 
 
+
+#TODO DONE
 DoItem_obj = DoItem()
-DoItem_obj.add_item(30,"Fruit", "Pride", "Saba", 2)
-DoItem_obj.delete_item(30)
+# DoItem_obj.add_item(10,"Car", "Pride", "hachbach", 20)
+# DoItem_obj.add_item(20,"Food", "pizza", "chicken", 50)
+# DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
+# DoItem_obj.edit_item(31,"havapeyma")
+# DoItem_obj.delete_item(1)
