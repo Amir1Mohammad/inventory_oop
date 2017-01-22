@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__Author__ = "Amir Mohammad"
+__Author__ = "Amir Mohammad & Sepehr"
 
 # python imports
 

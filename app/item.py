@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__Author__ = "Amir Mohammad"
+__Author__ = "Amir Mohammad & Sepehr"
 
 # python import :
 from sqlalchemy.orm import session
@@ -117,9 +117,9 @@ class DoItem:
 
 DoItem_obj = DoItem()
 
-#DoItem_obj.add_item(11,"Mive", "Sib", "Damavand", 20)
-#DoItem_obj.add_item(2,"Food", "pizza", "gharch", 50)
-# DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
-# DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
+DoItem_obj.add_item(11,"Mive", "Sib", "Damavand", 20)
+DoItem_obj.add_item(2,"Food", "pizza", "gharch", 50)
+DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
+DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
 # DoItem_obj.edit_item(31,"havapeyma")
 # DoItem_obj.delete_item(1)
