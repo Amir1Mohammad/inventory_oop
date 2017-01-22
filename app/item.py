@@ -94,23 +94,26 @@ class DoItem:
                                             Item.property == property1,
                                             Item.number == number1).all():
             item_id = my_id.id
-            print "------------",item_id
-            old_item = session.query(Item).get(item_id)
-            old_item.category = cat_obj.edit_category(category1, category2)[1]
-            old_item.name = nam_obj.edit_item(category1, name1, name2)[1]
-            old_item.property = property2
-            old_item.number = number2
-            session.commit()
+        old_item = session.query(Item).get(item_id)
+        old_item.category = cat_obj.edit_category(category1, category2)[1]
+        old_item.name = nam_obj.edit_item(category1, name1, name2)[1]
+        old_item.property = property2
+        old_item.number = number2
+        session.commit()
 
             
-    def delete_item(self, id):
-        if (not self.check_category(category)) and (not self.check_name(category, name)):
-            ############
-            user = Item.query.get(id)
-            session.delete(user)
-            session.commit()
-            print "delete_item feature completed"
-            ################
+    def delete_item(self, category, name):
+        cat_obj = Category()
+        nam_obj = Name()
+        delete_cate = cat_obj.delete_category(category)
+        delete_name = nam_obj.delete_item(category, name)
+        for my_id in session.query(Item).filter(Item.category == delete_cate,
+                                            Item.name == delete_name):
+            item_id = my_id.id
+        user = Item.query.get(item_id)
+        session.delete(user)
+        session.commit()
+
 
 DoItem_obj = DoItem()
 
