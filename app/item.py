@@ -51,13 +51,13 @@ class Name:
 
 
     def edit_item(self, category, name1, name2):
-        if not self.is_new_name(category, name1):
+        if not self.is_new_item(category, name1):
             name_list = [name1, name2]
             return name_list
 
 
     def delete_item(self, category, name):
-        if not self.is_new_name(category, name):
+        if not self.is_new_item(category, name):
             return name
 
 
@@ -78,19 +78,31 @@ class DoItem:
             return True
         else:
             return False
+
         
     def add_item(self, id, category, name, property, number):
         new_item = Item(id=id, category = category, name = name, property=property, number=number)
         session.add(new_item)
         session.commit()
-    def edit_item(self, id, category, name, property1, property2):
-        if (not self.check_category(category)) and (not self.check_name(category, name)):
-            ######bayad avaz she
-            u = session.query(Item).get(id)
-            u.name = name
+
+        
+    def edit_item(self, category1, name1, property1, number1, category2, name2, property2, number2):
+        cat_obj = Category()
+        nam_obj = Name()
+        for my_id in session.query(Item).filter(Item.category == category1,
+                                            Item.name == name1,
+                                            Item.property == property1,
+                                            Item.number == number1).all():
+            item_id = my_id.id
+            print "------------",item_id
+            old_item = session.query(Item).get(item_id)
+            old_item.category = cat_obj.edit_category(category1, category2)[1]
+            old_item.name = nam_obj.edit_item(category1, name1, name2)[1]
+            old_item.property = property2
+            old_item.number = number2
             session.commit()
-            print "edit_item feature completed"
-            #############
+
+            
     def delete_item(self, id):
         if (not self.check_category(category)) and (not self.check_name(category, name)):
             ############

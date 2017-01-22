@@ -7,7 +7,7 @@ __Author__ = "Amir Mohammad"
 from sqlalchemy import Column, Integer, String
 
 # project imports
-from models.base import Base
+from base import Base
 
 
 
