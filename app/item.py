@@ -21,21 +21,17 @@ class Category:
         
     def add_category(self, category):
         if self.is_new_category(category):
-            new_category = Item(category = category)
-            session.add(new_category)
-            session.commit()
-
+            return category
 
     def edit_category(self, category1, category2):
         if not self.is_new_category(category1):
-            #category1 ro tu database peida kon va avzesh kon ba category2
-            pass
+            cat_list = [category1, category2]
+            return cat_list
 
 
     def delete_category(self, category):
         if not self.is_new_category(category):
-            #category ro tu databasse peida kon va sikesh kon
-            pass
+            return category
 
 
 
@@ -51,24 +47,18 @@ class Name:
 
     def add_item(self, category, name):
         if self.is_new_item(category, name):
-            #bayad bere toye category
-            new_item = Item(name = name)
-            session.add(new_item)
-            session.commit()
+            return name
 
 
     def edit_item(self, category, name1, name2):
         if not self.is_new_name(category, name1):
-            #bayad bere toye category
-            #name1 ro tu database peida kon va avzesh kon ba name2
-            pass
+            name_list = [name1, name2]
+            return name_list
 
 
     def delete_item(self, category, name):
         if not self.is_new_name(category, name):
-            #bayad bere toye category
-            #name ro tu databasse peida kon va sikesh kon
-            pass
+            return name
 
 
 
@@ -78,27 +68,21 @@ class DoItem:
         cat_obj = Category()
         if cat_obj.is_new_category(category):
             return True
+        else:
+            return False
 
             
     def check_name(self, category, name):
         nam_obj = Name()
         if nam_obj.is_new_item(category, name):
             return True
-
+        else:
+            return False
         
     def add_item(self, id, category, name, property, number):
-        cat_obj = Category()
-        nam_obj = Name()
-        if self.check_category(category):
-            cat_obj.add_category(category)
-        if self.check_name(category, name):
-            nam_obj.add_item(category, name)
-        ###bayad avaz she 
-        new_item = Item(id=id, category=category, name=name, property=property, number=number)
+        new_item = Item(id=id, category = category, name = name, property=property, number=number)
         session.add(new_item)
         session.commit()
-        print "add_item feature completed"
-        #########
     def edit_item(self, id, category, name, property1, property2):
         if (not self.check_category(category)) and (not self.check_name(category, name)):
             ######bayad avaz she
@@ -119,7 +103,7 @@ class DoItem:
 DoItem_obj = DoItem()
 
 #DoItem_obj.add_item(11,"Mive", "Sib", "Damavand", 20)
-# DoItem_obj.add_item(10,"Food", "pizza", "chicken", 50)
+#DoItem_obj.add_item(2,"Food", "pizza", "gharch", 50)
 # DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
 # DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
 # DoItem_obj.edit_item(31,"havapeyma")
