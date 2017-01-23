@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 __Author__ = "Amir Mohammad"
 
-
 # Python imports
 from sqlalchemy import create_engine
 from sqlalchemy import Column, Integer, String
@@ -9,15 +8,12 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-
-
 engine = create_engine('sqlite:///database.db', echo=True)
 session = scoped_session(sessionmaker(autocommit=False,
-                                         autoflush=True,
-                                         bind=engine))
+                                      autoflush=True,
+                                      bind=engine))
 
 Base = declarative_base()
-
 
 Base.query = session.query_property()
 
@@ -30,4 +26,14 @@ class Inventory(Base):
     __tablename__ = 'inventory'
 
     Capacity = Column(Integer, primary_key=True)
+
+
+# init_db()
+
+
+def set_capacity(Capacity):
+    Capacity = Inventory(Capacity=Capacity)
+    session.add(Capacity)
+    session.commit()
+# set_capacity(50)
 

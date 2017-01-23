@@ -7,18 +7,19 @@ from sqlalchemy.orm import session
 # project import :
 from models import Item
 from models.base import session, init_db
+from app.Logs import get_number,get_capacity
 
 init_db()
+
 
 class Category:
     def is_new_category(self, category):
         category_list = session.query(Item.category).all()
         if (str(category),) in category_list:
             return False
-        else :
+        else:
             return True
 
-        
     def add_category(self, category):
         if self.is_new_category(category):
             return category
@@ -28,11 +29,9 @@ class Category:
             cat_list = [category1, category2]
             return cat_list
 
-
     def delete_category(self, category):
         if not self.is_new_category(category):
             return category
-
 
 
 class Name:
@@ -42,25 +41,21 @@ class Name:
             item_list = session.query(Item.name).all()
             if (str(name),) in item_list:
                 return False
-            else :
+            else:
                 return True
 
     def add_item(self, category, name):
         if self.is_new_item(category, name):
             return name
 
-
     def edit_item(self, category, name1, name2):
         if not self.is_new_item(category, name1):
             name_list = [name1, name2]
             return name_list
 
-
     def delete_item(self, category, name):
         if not self.is_new_item(category, name):
             return name
-
-
 
 
 class DoItem:
@@ -71,7 +66,6 @@ class DoItem:
         else:
             return False
 
-            
     def check_name(self, category, name):
         nam_obj = Name()
         if nam_obj.is_new_item(category, name):
@@ -79,20 +73,24 @@ class DoItem:
         else:
             return False
 
-        
     def add_item(self, id, category, name, property, number):
-        new_item = Item(id=id, category = category, name = name, property=property, number=number)
-        session.add(new_item)
-        session.commit()
+        get_num = get_number()
+        get_cap = get_capacity()
 
-        
+        new_item = Item(id=id, category=category, name=name, property=property, number=number)
+        if get_num + number < get_cap :
+            session.add(new_item)
+            session.commit()
+        else:
+            print "Capacity of storehouse not enough !"
+
     def edit_item(self, category1, name1, property1, number1, category2, name2, property2, number2):
         cat_obj = Category()
         nam_obj = Name()
         for my_id in session.query(Item).filter(Item.category == category1,
-                                            Item.name == name1,
-                                            Item.property == property1,
-                                            Item.number == number1).all():
+                                                Item.name == name1,
+                                                Item.property == property1,
+                                                Item.number == number1).all():
             item_id = my_id.id
         old_item = session.query(Item).get(item_id)
         old_item.category = cat_obj.edit_category(category1, category2)[1]
@@ -101,25 +99,27 @@ class DoItem:
         old_item.number = number2
         session.commit()
 
-            
     def delete_item(self, category, name):
         cat_obj = Category()
         nam_obj = Name()
         delete_cate = cat_obj.delete_category(category)
         delete_name = nam_obj.delete_item(category, name)
         for my_id in session.query(Item).filter(Item.category == delete_cate,
-                                            Item.name == delete_name):
+                                                Item.name == delete_name):
             item_id = my_id.id
         user = Item.query.get(item_id)
         session.delete(user)
         session.commit()
 
 
-DoItem_obj = DoItem()
+# DoItem_obj = DoItem()
 
-#DoItem_obj.add_item(11,"Mive", "Sib", "Damavand", 20)
-#DoItem_obj.add_item(2,"Food", "pizza", "gharch", 50)
-#DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
-#DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
+
+# DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
+# DoItem_obj.delete_item("Digital", "Mobile")
+# DoItem_obj.add_item(11,"Mive", "Sib", "Damavand", 20)
+# DoItem_obj.add_item(2,"Food", "pizza", "gharch", 50)
+# DoItem_obj.add_item(30,"Digital", "Mobile", "samsung", 100)
+# DoItem_obj.add_item(40,"Home", "clock", "analog", 1)
 # DoItem_obj.edit_item(31,"havapeyma")
 # DoItem_obj.delete_item(1)

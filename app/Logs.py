@@ -6,10 +6,19 @@ from sqlalchemy.orm import session, query
 # project import :
 from models import Item
 from models.base import session
-
+from app.models.base import Inventory
 
 def notification():
     import Report_Manager
+
+
+def get_number():
+    counter = 0
+    for my_id in session.query(Item).filter().all():
+        counter += my_id.number
+    # print "------", counter
+    return counter
+# get_number()
 
 
 def get_id(category, name, property):
@@ -20,6 +29,12 @@ def get_id(category, name, property):
 
 
 # get_id("Car","Pride","Saba")
+
+def get_capacity():
+    for _item in session.query(Inventory).filter():
+        # print "------>", _item.Capacity
+        return _item.Capacity
+# get_capacity()
 
 
 class LogFile:
@@ -39,8 +54,8 @@ class LogFile:
     def deficiency(self, notif):
 
         for _item in session.query(Item).filter(Item.number <= 1):
-            #the print font is not default
-            print '\033[1m' , _item.id, _item.category, _item.name, _item.property, _item.number
+            # the print font is not default
+            print '\033[1m', _item.id, _item.category, _item.name, _item.property, _item.number
             if notif:
                 notification()
             else:
